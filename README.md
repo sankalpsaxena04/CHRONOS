@@ -98,8 +98,6 @@
 
 
    <hr>
-    <p style="text-align: center; font-size: 0.9em; color: #666;">
-        Your clock is ticking. Good luck, Agent.
-    </p>
+  
 </body>
 </html>

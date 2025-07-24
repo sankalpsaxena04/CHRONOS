@@ -68,7 +68,7 @@
                     <li>Seamlessly pick images from the device gallery when creating or editing a reminder.</li>
                     <li>Selected images are efficiently uploaded to <strong>Firebase Storage</strong>.</li>
                     <li>The image URL is stored in Firestore, directly linked to its corresponding reminder.</li>
-                    <li>Images (if added) are displayed within the reminder details or list view.</li>
+                  
                 </ul>
             </li>
             <li>

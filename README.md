@@ -69,7 +69,7 @@
                     <li>Selected images are efficiently uploaded to <strong>Firebase Storage</strong>.</li>
                     <li>The image URL is stored in Firestore, directly linked to its corresponding reminder.</li>
                   
-                </ul>
+  </ul>
             </li>
             <li>
                 <h3>🔔 Notifications</h3>

@@ -51,4 +51,6 @@ dependencies {
     // Hilt
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.kapt)
+
+    implementation(project(":core:common"))
 }

@@ -57,6 +57,8 @@ dependencies {
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
 
+    implementation(libs.kotlinx.coroutines.core)
+
     // Hilt
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.kapt)

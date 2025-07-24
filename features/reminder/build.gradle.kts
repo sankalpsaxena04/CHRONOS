@@ -43,6 +43,10 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.runtime)
+    implementation(libs.androidx.compose.ui.ui)
+    implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.foundation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -50,6 +54,7 @@ dependencies {
     // Project Modules
     implementation(project(":domain"))
     implementation(project(":core:ui"))
+    implementation(project(":core:network"))
     implementation(project(":core:common"))
 
 
@@ -67,4 +72,14 @@ dependencies {
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.kapt)
     implementation(libs.hilt.compose.navigation)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.google.firebase.auth)
+    implementation(libs.play.services.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
+
+    // Coil for image loading
+    implementation(libs.coil.compose)
+    implementation(libs.coil)
 }

@@ -49,6 +49,7 @@ dependencies {
 
     // Project Modules
     implementation(project(":domain"))
+    implementation(project(":data"))
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
 
@@ -66,4 +67,8 @@ dependencies {
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.kapt)
     implementation(libs.hilt.compose.navigation)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.google.firebase.auth)
+    implementation(libs.play.services.auth)
 }

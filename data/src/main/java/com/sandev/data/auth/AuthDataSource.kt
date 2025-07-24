@@ -1,41 +1,93 @@
 package com.sandev.data.auth
 
-import android.content.Context
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import android.content.Intent
+import android.content.IntentSender
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.google.firebase.auth.auth
+import com.sandev.domain.auth.SignInResult
+import com.sandev.domain.auth.UserData
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class AuthDataSource @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val firebaseAuth: FirebaseAuth
+    private val oneTapClient: SignInClient
 ){
-    private val googleSignInClient : GoogleSignInClient by lazy {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("429210714618-jlu3acv531cq6ngtpuao6kcrcrukkog7.apps.googleusercontent.com")
-            .requestEmail()
-            .build()
-        GoogleSignIn.getClient(context,gso)
+    private val auth = Firebase.auth
+
+    suspend fun signIn(): IntentSender?{
+        val result = try {
+            oneTapClient.beginSignIn(
+                buildSignInRequest()
+            ).await()
+        }
+        catch (e: Exception){
+            e.printStackTrace()
+            if(e is CancellationException) throw e
+            null
+        }
+        return result?.pendingIntent?.intentSender
     }
-    val currentUser : FirebaseUser?
-            get()= firebaseAuth.currentUser
-
-    fun getGoogleSignInIntent() = googleSignInClient.signInIntent
-
-    suspend fun signInWithGoogle(idToken: String): FirebaseUser?{
-        val credential = GoogleAuthProvider.getCredential(idToken,null)
-        return firebaseAuth.signInWithCredential(credential).await().user
+    suspend fun signInWithIntent(intent: Intent): SignInResult {
+        val credential = oneTapClient.getSignInCredentialFromIntent(intent)
+        val googleIdToken = credential.googleIdToken
+        val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken,null)
+        return try {
+            val user = auth.signInWithCredential(googleCredentials).await().user
+            SignInResult(
+                data = user?.run {
+                    UserData(
+                        userId = uid,
+                        username = displayName,
+                        profilePic = photoUrl?.toString()
+                    )
+                },
+                errorMessage = null
+            )
+        }
+        catch (e: Exception){
+            e.printStackTrace()
+            if(e is CancellationException) throw e
+            SignInResult(
+                null, e.message
+            )
+        }
     }
 
     suspend fun signOut(){
-        firebaseAuth.signOut()
-        googleSignInClient.signOut().await()
+        try {
+            oneTapClient.signOut().await()
+            auth.signOut()
+        }
+        catch (e: Exception){
+            e.printStackTrace()
+            if(e is CancellationException)throw e
+        }
     }
+    fun getSignedInUser(): UserData?{
+        return auth.currentUser?.run {
+            UserData(
+                userId = uid,
+                username = displayName,
+                profilePic = photoUrl?.toString()
+            )
+        }
+    }
+
+    private fun buildSignInRequest(): BeginSignInRequest{
+        return BeginSignInRequest.Builder()
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    .setFilterByAuthorizedAccounts(false)
+                    .setServerClientId("429210714618-jlu3acv531cq6ngtpuao6kcrcrukkog7.apps.googleusercontent.com")
+                    .build()
+            )
+            .setAutoSelectEnabled(true)
+            .build()
+    }
+
 }

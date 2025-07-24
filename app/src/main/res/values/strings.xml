@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">CHRONOS</string>
+    <string name="app_name">Chronos</string>
+    <string name="web_client_id">429210714618-jlu3acv531cq6ngtpuao6kcrcrukkog7.apps.googleusercontent.com</string>
 </resources>

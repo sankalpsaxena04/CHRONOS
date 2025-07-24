@@ -13,9 +13,9 @@ import androidx.work.WorkManager
 import com.sandev.domain.notification.NotificationScheduler
 import com.sandev.domain.reminder.model.Reminder
 import dagger.hilt.android.qualifiers.ApplicationContext
-import jakarta.inject.Inject
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class NotificationSchedulerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -23,7 +23,6 @@ class NotificationSchedulerImpl @Inject constructor(
 ) : NotificationScheduler {
 
     override fun scheduleReminder(reminder: Reminder) {
-        // Calculate delay
         val now = Calendar.getInstance().timeInMillis
         val reminderTime = reminder.dateTime.time
         val delay = reminderTime - now

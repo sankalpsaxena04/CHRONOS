@@ -1,9 +1,8 @@
 package com.sandev.domain.di
 
 import com.sandev.domain.auth.AuthRepository
-import com.sandev.domain.auth.GetCurrentUserUseCase
-import com.sandev.domain.auth.GetSignInIntentUseCase
-import com.sandev.domain.auth.SignInWithGoogleUseCase
+import com.sandev.domain.auth.GetSignedInUserUseCase
+import com.sandev.domain.auth.SignInUseCase
 import com.sandev.domain.auth.SignOutUseCase
 import dagger.Module
 import dagger.Provides
@@ -15,22 +14,19 @@ import dagger.hilt.components.SingletonComponent
 object AuthDomainModule {
 
     @Provides
-    fun provideGetCurrentUserUseCase(authRepository: AuthRepository): GetCurrentUserUseCase {
-        return GetCurrentUserUseCase(authRepository)
+    fun provideGetSignInUseCase(authRepository: AuthRepository): SignInUseCase {
+        return SignInUseCase(authRepository)
     }
 
     @Provides
-    fun provideGetSignInIntentUseCase(authRepository: AuthRepository): GetSignInIntentUseCase {
-        return GetSignInIntentUseCase(authRepository)
-    }
-
-    @Provides
-    fun provideSignInWithGoogleUseCase(authRepository: AuthRepository): SignInWithGoogleUseCase {
-        return SignInWithGoogleUseCase(authRepository)
-    }
-
-    @Provides
-    fun provideSignOutUseCase(authRepository: AuthRepository): SignOutUseCase {
+    fun provideGetSignOutUseCase(authRepository: AuthRepository): SignOutUseCase {
         return SignOutUseCase(authRepository)
     }
+
+    @Provides
+    fun provideGetSignedInUserUseCase(authRepository: AuthRepository): GetSignedInUserUseCase {
+        return GetSignedInUserUseCase(authRepository)
+    }
+
+
 }

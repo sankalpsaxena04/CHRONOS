@@ -2,11 +2,11 @@ package com.sandev.domain.reminder
 
 import android.net.Uri
 import com.sandev.domain.reminder.model.Reminder
-import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import com.sandev.core.common.Result
+import javax.inject.Inject
 
 class AddReminderUseCase @Inject constructor(
     private val reminderRepository: ReminderRepository,

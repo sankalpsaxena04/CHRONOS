@@ -1,8 +1,8 @@
 package com.sandev.domain.reminder
 
 import com.sandev.domain.reminder.model.Reminder
-import jakarta.inject.Inject
 import java.util.Date
+import javax.inject.Inject
 
 data class ValidationResult (
     val isValid: Boolean,

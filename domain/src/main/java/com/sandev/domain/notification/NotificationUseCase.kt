@@ -1,7 +1,8 @@
 package com.sandev.domain.notification
 
 import com.sandev.domain.reminder.model.Reminder
-import jakarta.inject.Inject
+import javax.inject.Inject
+
 
 class ScheduleReminderNotificationUseCase @Inject constructor(
     private val notificationScheduler: NotificationScheduler

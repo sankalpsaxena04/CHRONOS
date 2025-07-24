@@ -1,42 +1,22 @@
 package com.sandev.data.auth
 
 import android.content.Intent
+import android.content.IntentSender
 import com.google.firebase.auth.FirebaseUser
 import com.sandev.core.common.Result
 import com.sandev.domain.auth.AuthRepository
-import jakarta.inject.Inject
+import com.sandev.domain.auth.SignInResult
+import com.sandev.domain.auth.UserData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val authDataSource: AuthDataSource
+    private val dataSource: AuthDataSource
 ): AuthRepository{
-    override val currentUser: FirebaseUser?
-        get() = authDataSource.currentUser
-
-    override fun getSignInIntent(): Intent {
-        return authDataSource.getGoogleSignInIntent()
-    }
-
-    override fun signInWithGoogle(idToken: String): Flow<Result<FirebaseUser?>> = flow {
-        emit(Result.Loading)
-        try {
-            val user = authDataSource.signInWithGoogle(idToken)
-            emit(Result.Success(user))
-        }
-        catch (e: Exception){
-            emit(Result.Error(e))
-        }
-    }
-
-    override fun signOut(): Flow<Result<Unit>> =flow{
-        emit(Result.Loading)
-        try {
-            authDataSource.signOut()
-            emit(Result.Success(Unit))
-        } catch (e: Exception) {
-            emit(Result.Error(e))
-        }
-    }
+    override suspend fun signIn() = dataSource.signIn()
+    override suspend fun signInWithIntent(intent: Intent) = dataSource.signInWithIntent(intent)
+    override suspend fun signOut() = dataSource.signOut()
+    override fun getSignedInUser() = dataSource.getSignedInUser()
 
 }

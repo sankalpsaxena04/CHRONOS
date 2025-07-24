@@ -25,7 +25,7 @@ class ReminderWorker(
     override suspend fun doWork(): Result {
         val reminderId = inputData.getString("REMINDER_ID")?:return Result.failure()
         val reminderTitle = inputData.getString("REMINDER_TITLE")?:"Reminder"
-        val reminderNote = inputData.getString("REMINDER_NOTE")?:"Reminder..."
+        val reminderNote = inputData.getString("REMINDER_NOTES")?:"Reminder..."
 
         createNotificationChannel()
 

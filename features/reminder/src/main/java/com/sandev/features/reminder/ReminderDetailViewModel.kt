@@ -24,8 +24,6 @@ class ReminderDetailViewModel @Inject constructor(
     private val _reminder = MutableStateFlow<Result<Reminder?>>(Result.Loading)
     val reminder = _reminder.asStateFlow()
 
-    private val _aiGreetingState = MutableStateFlow<Result<String>>(Result.Loading)
-    val aiGreetingState = _aiGreetingState.asStateFlow()
 
     private val currentUserId: String?
         get() = getCurrentUserUseCase()?.userId

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.sandev.ui.components.ChronosTopAppBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthScreen(
     modifier: Modifier = Modifier,
@@ -31,7 +34,7 @@ fun AuthScreen(
     }
     Scaffold(
         topBar = {
-            ChronosTopAppBar(title = "Chronos - Sign In")
+            CenterAlignedTopAppBar(  title = { Text(text = "Sign In", style = MaterialTheme.typography.headlineMedium) })
         },
         modifier = modifier.fillMaxSize()
     ) { paddingValues ->

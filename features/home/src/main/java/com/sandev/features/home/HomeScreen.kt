@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -25,6 +26,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -32,6 +34,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -64,6 +69,9 @@ fun HomeScreen(
     val signOutState by viewModel.signOutState.collectAsState()
     val hasNotificationPermission = viewModel.hasNotificationPermission()
     val aiGreetingState by viewModel.aiGreetingState.collectAsState()
+    val shareClickState by viewModel.shareClickState.collectAsState()
+    var aiText by remember { mutableStateOf("") }
+
     val notificationPermissionLauncher = remNotifPermissionLauncher { isGranted ->
         if (isGranted) {
             context.showToast("Notification permission granted!")
@@ -108,6 +116,9 @@ fun HomeScreen(
             is Result.Error -> {
                 context.showToast("Error generating AI message: ${(aiGreetingState as Result.Error).exception.message}")
             }
+            is Result.Loading ->{
+                context.showToast("Generating Message...")
+            }
             else -> {}
         }
     }
@@ -125,7 +136,7 @@ fun HomeScreen(
                         Icon(imageVector = Icons.Default.ExitToApp, contentDescription = "Sign Out")
                     }
                     IconButton(onClick = {
-                            viewModel.shareAiGreeting()
+                            viewModel.shareStateToggle()
                     }) {
                         Icon(Icons.Default.Share, contentDescription = "Share AI Message")
                     }
@@ -144,6 +155,29 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+            if(shareClickState){
+                Row (modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically){
+                    OutlinedTextField(value = aiText,
+                        onValueChange = {
+                            aiText = it
+                        },
+                        label = { Text("Enter prompt...") },
+                        modifier = Modifier.weight(1f)
+                    )
+                    IconButton(
+                        enabled = aiText.isNotBlank(),
+                        onClick = {
+                            viewModel.shareAiGreeting(aiText)
+                            aiText=""
+                        },
+
+                    ) {
+                        Icon(imageVector = Icons.Default.Send, contentDescription = "Send")
+                    }
+                }
+            }
             when (remindersState) {
                 is Result.Loading -> {
                     Column(
@@ -188,6 +222,8 @@ fun HomeScreen(
                         Text("Error loading reminders: ${(remindersState as Result.Error).exception.message}")
                     }
                 }
+
+                else -> {}
             }
         }
 

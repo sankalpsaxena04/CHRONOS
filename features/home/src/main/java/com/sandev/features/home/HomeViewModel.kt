@@ -31,13 +31,16 @@ class HomeViewModel @Inject constructor(
     private val aiService: AiService
 ) : ViewModel() {
 
-    private val _remindersState = MutableStateFlow<Result<List<Reminder?>>>(Result.Loading)
+    private val _remindersState = MutableStateFlow<Result<List<Reminder?>>?>(null)
     val remindersState = _remindersState.asStateFlow()
+
+    private val _shareClickState = MutableStateFlow<Boolean>(false)
+    val shareClickState = _shareClickState.asStateFlow()
 
     private val _signOutState = MutableStateFlow<Result<Unit>?>(null)
     val signOutState = _signOutState.asStateFlow()
 
-    private val _aiGreetingState = MutableStateFlow<Result<String>>(Result.Loading)
+    private val _aiGreetingState = MutableStateFlow<Result<String>?>(null)
     val aiGreetingState = _aiGreetingState.asStateFlow()
 
 
@@ -65,19 +68,25 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    fun shareStateToggle(){
+        _shareClickState.value = !_shareClickState.value
+    }
+
     fun hasNotificationPermission(): Boolean {
         return hasNotificationPermissionUseCase()
     }
 
-    fun shareAiGreeting() {
+    fun shareAiGreeting(prompt: String) {
         viewModelScope.launch {
             _aiGreetingState.value = Result.Loading
             try {
-                val encodedPrompt =  URLEncoder.encode("Give a warm Greetings from Sankalp the developer od Chronos", StandardCharsets.UTF_8.toString())
+                val encodedPrompt =  URLEncoder.encode(prompt, StandardCharsets.UTF_8.toString())
                 val greeting = aiService.getGreetings(encodedPrompt)
+                shareStateToggle()
                 if(greeting.isSuccessful){
                     greeting.body()?.let {
                         _aiGreetingState.value = Result.Success(it)
+
                     }
                 }
                 else{

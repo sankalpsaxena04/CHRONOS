@@ -1,10 +1,13 @@
 [versions]
 agp = "8.11.0-rc02"
 cardview = "1.0.0"
+cloudinaryAndroid = "3.1.1"
+converterScalars = "3.0.0"
 firebaseBom = "34.0.0"
 foundationLayout = "1.8.3"
 googleServices = "4.4.3"
 gradle = "8.10.1"
+gson = "2.13.1"
 hiltAndroidGradlePlugin = "2.57"
 hiltCompiler = "2.57"
 hiltCompilerVersion = "1.2.0"
@@ -46,7 +49,9 @@ androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref =
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+cloudinary-android = { module = "com.cloudinary:cloudinary-android", version.ref = "cloudinaryAndroid" }
 coilfirebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "converterScalars" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
@@ -58,6 +63,7 @@ google-firebase-firestore = { module = "com.google.firebase:firebase-firestore" 
 google-firebase-auth = { module = "com.google.firebase:firebase-auth" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroidGradlePlugin" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

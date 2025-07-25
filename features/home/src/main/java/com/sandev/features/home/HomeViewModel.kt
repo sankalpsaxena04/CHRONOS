@@ -1,5 +1,6 @@
 package com.sandev.features.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
@@ -72,11 +73,21 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _aiGreetingState.value = Result.Loading
             try {
-                val encodedPrompt = URLEncoder.encode("Give a warm Greetings from Sankalp the developer od Chronos", StandardCharsets.UTF_8.toString())
+                val encodedPrompt =  URLEncoder.encode("Give a warm Greetings from Sankalp the developer od Chronos", StandardCharsets.UTF_8.toString())
                 val greeting = aiService.getGreetings(encodedPrompt)
-                _aiGreetingState.value = Result.Success(greeting)
+                if(greeting.isSuccessful){
+                    greeting.body()?.let {
+                        _aiGreetingState.value = Result.Success(it)
+                    }
+                }
+                else{
+                    _aiGreetingState.value = Result.Error(Exception(greeting.errorBody().toString()))
+                }
+
+
             } catch (e: Exception) {
                 _aiGreetingState.value = Result.Error(e)
+                Log.d("ChronosErrorTag",e.message.toString())
             }
         }
     }

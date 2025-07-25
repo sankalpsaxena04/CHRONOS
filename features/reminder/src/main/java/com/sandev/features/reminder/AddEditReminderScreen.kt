@@ -105,7 +105,9 @@ fun AddEditReminderScreen(
             is Result.Error -> {
                 context.showToast("Error: ${(saveReminderState as Result.Error).exception.message}")
             }
-            else -> {}
+            else -> {
+                
+            }
         }
     }
 
@@ -230,7 +232,6 @@ fun AddEditReminderScreen(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Don't Upload the image. Firebase does not allows using storage without adding billing details. Thus the functionality is added but it won't work.")
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically

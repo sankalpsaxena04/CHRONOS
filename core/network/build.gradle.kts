@@ -53,4 +53,6 @@ dependencies {
     kapt(libs.dagger.kapt)
 
     implementation(project(":core:common"))
+
+    implementation(libs.converter.scalars)
 }

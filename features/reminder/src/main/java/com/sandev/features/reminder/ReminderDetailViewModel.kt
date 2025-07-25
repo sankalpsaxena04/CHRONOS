@@ -21,7 +21,7 @@ class ReminderDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _reminder = MutableStateFlow<Result<Reminder?>>(Result.Loading)
+    private val _reminder = MutableStateFlow<Result<Reminder?>?>(null)
     val reminder = _reminder.asStateFlow()
 
 

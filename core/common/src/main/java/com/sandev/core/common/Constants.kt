@@ -6,7 +6,7 @@ object Constants {
     const val REMINDERS_COLLECTION = "reminders"
     const val REMINDER_IMAGE_STORAGE_PATH = "reminder_images"
 
-    const val AI_GREETING_API_BASE_URL = "https://text.pollinations.ai/"
+    const val AI_GREETING_API_BASE_URL = "https://text.pollinations.ai"
 
     // Notification Channel
     const val REMINDER_NOTIFICATION_CHANNEL_ID = "chronos_reminder_channel"

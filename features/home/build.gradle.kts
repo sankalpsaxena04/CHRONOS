@@ -74,4 +74,5 @@ dependencies {
     // Coil for image loading
     implementation(libs.coil.compose)
     implementation(libs.coil)
+    implementation(libs.converter.scalars)
 }

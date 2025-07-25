@@ -85,14 +85,14 @@ fun ReminderDetailScreen(
         ) {
             when (reminderState) {
                 is Result.Loading -> {
-//                    Column(
-//                        modifier = Modifier.fillMaxSize(),
-//                        horizontalAlignment = Alignment.CenterHorizontally,
-//                        verticalArrangement = Arrangement.Center
-//                    ) {
-//                        CircularProgressIndicator()
-//                        Text("Loading reminder...")
-//                    }
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator()
+                        Text("Loading reminder...")
+                    }
                 }
                 is Result.Success -> {
                     val reminder = (reminderState as Result.Success).data
@@ -124,8 +124,10 @@ fun ReminderDetailScreen(
                 is Result.Error -> {
                     Text("Error: ${(reminderState as Result.Error).exception.message}", color = MaterialTheme.colorScheme.error)
                 }
+
+                else -> {}
             }
         }
-//        LoadingDialogue(showDialog = aiGreetingState is Result.Loading)
+
     }
 }

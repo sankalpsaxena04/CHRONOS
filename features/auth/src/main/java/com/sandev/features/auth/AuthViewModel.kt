@@ -71,5 +71,6 @@ class AuthViewModel @Inject constructor(
 }
 data class AuthState(
     val isSignInSuccess: Boolean = false,
-    val signInError: String? = null
+    val signInError: String? = null,
+    val loading: Boolean
 )

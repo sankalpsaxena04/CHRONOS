@@ -1,9 +1,11 @@
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dagger)
     id("kotlin-kapt")
 }
+
 
 android {
     namespace = "com.sandev.data"
@@ -46,6 +48,7 @@ dependencies {
     // Project Modules
     implementation(project(":domain"))
     implementation(project(":core:common"))
+    implementation(project(":core:network"))
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -62,4 +65,9 @@ dependencies {
     // Hilt
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.kapt)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson.convertor)
+    implementation(libs.logging.interceptor)
 }

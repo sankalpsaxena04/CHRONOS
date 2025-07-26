@@ -12,6 +12,7 @@ import com.sandev.domain.reminder.GetRemindersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.sandev.core.common.Result
 import com.sandev.core.network.AiService
+import com.sandev.domain.AiService.AiServiceUseCase
 import com.sandev.domain.auth.SignOutUseCase
 import com.sandev.domain.reminder.model.Reminder
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,8 @@ class HomeViewModel @Inject constructor(
     private val getRemindersUseCase: GetRemindersUseCase,
     private val signOutUseCase: SignOutUseCase,
     private val hasNotificationPermissionUseCase: HasNotificationPermissionUseCase,
-    private val aiService: AiService
+    private val aiService: AiService,
+    private val aiServiceUseCase: AiServiceUseCase
 ) : ViewModel() {
 
     private val _remindersState = MutableStateFlow<Result<List<Reminder?>>?>(null)
@@ -54,6 +56,18 @@ class HomeViewModel @Inject constructor(
             _remindersState.value = Result.Error(Exception("User not authenticated."))
         }
     }
+    fun shareAiGreeting(prompt: String) {
+            _aiGreetingState.value = Result.Loading
+                val encodedPrompt =  URLEncoder.encode(prompt, StandardCharsets.UTF_8.toString())
+                aiServiceUseCase(encodedPrompt).onEach { result ->
+                    _aiGreetingState.value  = result
+                }.launchIn(viewModelScope)
+
+    }
+    fun resetAiGreetingState() {
+        _aiGreetingState.value = null
+        shareStateToggle()
+    }
 
     fun signOut() {
         _signOutState.value = Result.Loading
@@ -76,30 +90,7 @@ class HomeViewModel @Inject constructor(
         return hasNotificationPermissionUseCase()
     }
 
-    fun shareAiGreeting(prompt: String) {
-        viewModelScope.launch {
-            _aiGreetingState.value = Result.Loading
-            try {
-                val encodedPrompt =  URLEncoder.encode(prompt, StandardCharsets.UTF_8.toString())
-                val greeting = aiService.getGreetings(encodedPrompt)
-                shareStateToggle()
-                if(greeting.isSuccessful){
-                    greeting.body()?.let {
-                        _aiGreetingState.value = Result.Success(it)
 
-                    }
-                }
-                else{
-                    _aiGreetingState.value = Result.Error(Exception(greeting.errorBody().toString()))
-                }
-
-
-            } catch (e: Exception) {
-                _aiGreetingState.value = Result.Error(e)
-                Log.d("ChronosErrorTag",e.message.toString())
-            }
-        }
-    }
 
 
 }

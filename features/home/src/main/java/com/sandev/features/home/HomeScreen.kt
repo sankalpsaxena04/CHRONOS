@@ -112,9 +112,11 @@ fun HomeScreen(
                 } else {
                     context.showToast("Could not generate AI message.")
                 }
+                viewModel.resetAiGreetingState()
             }
             is Result.Error -> {
                 context.showToast("Error generating AI message: ${(aiGreetingState as Result.Error).exception.message}")
+                viewModel.resetAiGreetingState()
             }
             is Result.Loading ->{
                 context.showToast("Generating Message...")

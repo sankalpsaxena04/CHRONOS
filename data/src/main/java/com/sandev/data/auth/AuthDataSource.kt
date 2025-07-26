@@ -83,7 +83,7 @@ class AuthDataSource @Inject constructor(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setFilterByAuthorizedAccounts(false)
-                    .setServerClientId("429210714618-jlu3acv531cq6ngtpuao6kcrcrukkog7.apps.googleusercontent.com")
+                    .setServerClientId("BuildConfig")
                     .build()
             )
             .setAutoSelectEnabled(true)

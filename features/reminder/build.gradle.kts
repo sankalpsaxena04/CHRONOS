@@ -1,5 +1,3 @@
-import java.io.FileInputStream
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.library)
@@ -7,16 +5,6 @@ plugins {
     alias(libs.plugins.dagger)
     id("kotlin-kapt")
     alias(libs.plugins.kotlin.compose)
-}
-fun getProps(propName: String): String? {
-    val propsFile = project.rootProject.file("local.properties")
-    if (propsFile.exists()) {
-        val props = Properties()
-        props.load(FileInputStream(propsFile))
-        return props.getProperty(propName)
-    } else {
-        return null
-    }
 }
 
 android {
@@ -41,7 +29,6 @@ android {
     }
     buildFeatures {
         compose = true
-        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -50,29 +37,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildTypes{
-        debug {
-            //Cloudinary Cloud Name
-            buildConfigField("String","CLOUDINARY_CLOUD_NAME","\"${getProps("CLOUDINARY_CLOUD_NAME")}\"")
 
-            //Cloudinary API KEY
-            buildConfigField("String","CLOUDINARY_API_KEY","\"${getProps("CLOUDINARY_API_KEY")}\"")
-
-            //Cloudinary API SECRET
-            buildConfigField("String","CLOUDINARY_API_SECRET","\"${getProps("CLOUDINARY_API_SECRET")}\"")
-        }
-        release{
-            //Cloudinary Cloud Name
-            buildConfigField("String","CLOUDINARY_CLOUD_NAME","\"${getProps("CLOUDINARY_CLOUD_NAME")}\"")
-
-            //Cloudinary API KEY
-            buildConfigField("String","CLOUDINARY_API_KEY","\"${getProps("CLOUDINARY_API_KEY")}\"")
-
-            //Cloudinary API SECRET
-            buildConfigField("String","CLOUDINARY_API_SECRET","\"${getProps("CLOUDINARY_API_SECRET")}\"")
-
-        }
-    }
 }
 
 dependencies {

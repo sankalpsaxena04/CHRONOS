@@ -1,5 +1,7 @@
 package com.sandev.domain.di
 
+import com.sandev.domain.AiService.AiServiceRepository
+import com.sandev.domain.AiService.AiServiceUseCase
 import com.sandev.domain.auth.AuthRepository
 import com.sandev.domain.auth.GetSignedInUserUseCase
 import com.sandev.domain.auth.SignInUseCase
@@ -28,5 +30,9 @@ object AuthDomainModule {
         return GetSignedInUserUseCase(authRepository)
     }
 
+    @Provides
+    fun providesAiServiceUseCase(aiServiceRepository: AiServiceRepository): AiServiceUseCase{
+        return AiServiceUseCase(aiServiceRepository)
+    }
 
 }
